@@ -75,9 +75,6 @@ type Entry struct {
 
 	// err may contain a field formatting error
 	err string
-
-	//log path
-	Path string
 }
 
 func NewEntry(logger *Logger) *Entry {
@@ -106,7 +103,7 @@ func (entry *Entry) WithError(err error) *Entry {
 
 // Add a context to the Entry.
 func (entry *Entry) WithContext(ctx context.Context) *Entry {
-	return &Entry{Logger: entry.Logger, Data: entry.Data, Time: entry.Time, err: entry.err, Context: ctx, Path: entry.Path}
+	return &Entry{Logger: entry.Logger, Data: entry.Data, Time: entry.Time, err: entry.err, Context: ctx}
 }
 
 // Add a single field to the Entry.
@@ -142,17 +139,12 @@ func (entry *Entry) WithFields(fields Fields) *Entry {
 			data[k] = v
 		}
 	}
-	return &Entry{Logger: entry.Logger, Data: data, Time: entry.Time, err: fieldErr, Context: entry.Context, Path: entry.Path}
+	return &Entry{Logger: entry.Logger, Data: data, Time: entry.Time, err: fieldErr, Context: entry.Context}
 }
 
 // Overrides the time of the Entry.
 func (entry *Entry) WithTime(t time.Time) *Entry {
-	return &Entry{Logger: entry.Logger, Data: entry.Data, Time: t, err: entry.err, Context: entry.Context, Path: entry.Path}
-}
-
-// Overrides the path of the Entry.
-func (entry *Entry) WithPath(p string) *Entry {
-	return &Entry{Logger: entry.Logger, Data: entry.Data, Time: entry.Time, err: entry.err, Context: entry.Context, Path: p}
+	return &Entry{Logger: entry.Logger, Data: entry.Data, Time: t, err: entry.err, Context: entry.Context}
 }
 
 // getPackageName reduces a fully qualified function name to the package name
